@@ -3,12 +3,12 @@ import React from "react";
 const NavBar = () => {
   const menuItems = [
     {
-      name: "Add Restaurant",
+      name: "Search",
       url: "/",
     },
     {
-      name: "Search",
-      url: "/",
+      name: "Add Restaurant",
+      url: "/add",
     },
     {
       name: "About Us",

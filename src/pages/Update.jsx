@@ -1,23 +1,45 @@
-import React, { useState } from "react";
-
-const Add = () => {
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+const Update = () => {
+  //Get ID from URL
+  const { id } = useParams();
   const [restaurant, setRestaurant] = useState({
     title: "",
     type: "",
     img: "",
   });
+
+  //2.GEt Restaurant
+  useEffect(() => {
+    //cal api: getAllRestaurants
+    fetch("http://localhost:3000/restaurants/" + id)
+      .then((res) => {
+        //convert to json format
+        console.log(res);
+        return res.json();
+      })
+      .then((response) => {
+        //save to state
+        setRestaurant(response);
+      })
+      .catch((err) => {
+        //cath error
+        console.log(err.message);
+      });
+  }, [id]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRestaurant({ ...restaurant, [name]: value });
   };
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:3000/restaurants", {
-        method: "POST",
+      const response = await fetch("http://localhost:3000/restaurants/" + id, {
+        method: "PUT",
         body: JSON.stringify(restaurant),
       });
       if (response.ok) {
-        alert("Restaurannt Adds succesfully!!!");
+        alert("Restaurant Updated succesfully!!!");
         setRestaurant({
           title: "",
           type: "",
@@ -33,7 +55,7 @@ const Add = () => {
       <div class="relative flex flex-col justify-center h-screen overflow-hidden">
         <div class="w-full p-6 m-auto bg-white rounded-md shadow-md ring-2 ring-gray-800/50 lg:max-w-lg">
           <h1 class="text-2xl font-semibold text-center text-gray-700 mb-6">
-            Add Item
+            Update Item
           </h1>
           <form class="space-y-4">
             <div>
@@ -43,9 +65,10 @@ const Add = () => {
 
               <input
                 type="text"
+                name="title"
+                value={restaurant.title}
                 placeholder="Enter title"
                 class="w-full input input-bordered"
-                name="title"
                 onChange={handleChange}
               />
             </div>
@@ -59,6 +82,7 @@ const Add = () => {
                 placeholder="Enter type"
                 class="w-full input input-bordered"
                 name="type"
+                value={restaurant.type}
                 onChange={handleChange}
               />
             </div>
@@ -73,6 +97,7 @@ const Add = () => {
                 class="w-full input input-bordered"
                 onChange={handleChange}
                 placeholder="Restaurant Img"
+                value={restaurant.img}
                 name="img"
               />
 
@@ -91,9 +116,13 @@ const Add = () => {
               >
                 Add
               </button>
-              <button type="button" class="btn bg-red-500 text-white px-6">
+              <a
+                href={"/"}
+                type="button"
+                class="btn bg-red-500 text-white px-6"
+              >
                 Cancel
-              </button>
+              </a>
             </div>
           </form>
         </div>
@@ -102,4 +131,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default Update;
