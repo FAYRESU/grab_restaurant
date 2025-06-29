@@ -1,23 +1,27 @@
 import React from "react";
 
 const Card = (props) => {
-  const handleDelte = async (id) => {
+  const handleDelete = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this restaurant?");
+    if (!isConfirmed) return;
+
     try {
       const response = await fetch("http://localhost:3000/restaurants/" + id, {
-        method: "Delete",
+        method: "DELETE",
       });
       if (response.ok) {
-        alert("Restaurant Delete succesfully!!!");
+        alert("Restaurant deleted successfully!");
         window.location.reload();
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
-      <figure className="">
-        <img src={props.img} alt="Shoes" />
+      <figure>
+        <img src={props.img} alt="Restaurant" />
       </figure>
       <div className="card-body">
         <h2 className="card-title">
@@ -27,7 +31,7 @@ const Card = (props) => {
         <p>{props.type}</p>
         <div className="card-actions justify-end">
           <button
-            onClick={() => handleDelte(props.id)}
+            onClick={() => handleDelete(props.id)}
             className="btn btn-soft btn-error"
           >
             Delete

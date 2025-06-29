@@ -91,9 +91,9 @@ const Add = () => {
               >
                 Add
               </button>
-              <button type="button" class="btn bg-red-500 text-white px-6">
+              <a href={"/"} button type="button" class="btn bg-red-500 text-white px-6">
                 Cancel
-              </button>
+              </a>
             </div>
           </form>
         </div>
